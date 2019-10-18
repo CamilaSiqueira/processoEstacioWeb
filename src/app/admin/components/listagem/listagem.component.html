@@ -1,0 +1,60 @@
+<a mat-button color="warn" routerLink="/admin/cadastro">
+    Adicionar Usuário
+</a>
+
+<mat-table [dataSource]="dataSource" matSort>
+    <mat-header-row *matHeaderRowDef="colunas"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: colunas;"></mat-row>
+
+    <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+            ID
+        </mat-header-cell>
+        <mat-cell *matCellDef="let usuario">
+            {{ usuario.id}}
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+            E-mail
+        </mat-header-cell>
+        <mat-cell *matCellDef="let usuario">
+            {{ usuario.email }}
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="tel">
+        <mat-header-cell *matHeaderCellDef>
+            Celular
+        </mat-header-cell>
+        <mat-cell *matCellDef="let usuario">
+            {{ usuario.tel }}
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="perfil">
+        <mat-header-cell *matHeaderCellDef>
+            Perfil
+        </mat-header-cell>
+        <mat-cell *matCellDef="let usuario">
+            {{ obterPerfil(usuario.role) }}
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="acao">
+        <mat-header-cell *matHeaderCellDef>Ação</mat-header-cell>
+        <mat-cell *matCellDef="let usuario">
+            <a routerLink="{{ '/admin/atualizacao/' + usuario.id }}">
+                <mat-icon matTooltip="Editar Usuário">create</mat-icon>
+            </a>
+            <a (click)="apagarUsuario(usuario.name, usuario.id)" style="cursor: pointer"
+                *ngIf="isNotActualUser(usuario.email)">
+                <mat-icon matTooltip="Remover Usuário">clear</mat-icon>
+            </a>
+        </mat-cell>
+    </ng-container>
+</mat-table>
+
+<mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 15, 25]">
+</mat-paginator>
